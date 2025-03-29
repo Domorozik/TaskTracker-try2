@@ -9,7 +9,7 @@ def enter_name():
     return input("\nEnter name for the task: ")
 
 def enter_description():
-    return input("Enter description for a new task: ")
+    return input("Enter description for a task: ")
 
 def enter_task_status(name: str, previous_status: str = "In progress",):
     while True:
@@ -92,4 +92,28 @@ def create_new_task():
     with open("saves.json", "w") as file:
         json.dump(saves, file, indent=4, ensure_ascii=False)
 
-create_new_task()    
+def update_task(task : dict) -> dict:
+
+    print(f"\n\n*** Updating task {task["name"]} ***")
+
+    while True:
+        print("\nChose what do you want to update:\n1. Name\n2. Description")
+        try:
+            action = int(input())
+        except Exception as e:
+            print("Please enter only 1 or 2")
+            continue
+
+        if action == 1:
+            new_name = enter_name()
+            task["name"] = new_name
+            break
+        elif action == 2:
+            new_desciption = enter_description()
+            task["description"] = new_desciption
+            break
+    
+    updated_at = get_time()
+    task.setdefault("updated_at", updated_at)
+
+    return task
